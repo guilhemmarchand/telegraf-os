@@ -13,3 +13,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 # Welcome to the Splunk application for Operating System monitoring with Telegraf
+
+![screen1](./docs/img/coremain.png)
