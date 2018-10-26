@@ -85,7 +85,7 @@
             <title>TOP 10 Linux most CPU busy over last 60 min</title>
             <viz type="horizon_chart_app.horizon_chart">
                 <search>
-                    <query>| mstats avg(_value) as value where `telegraf_index` metric_name=cpu.usage_iowait OR metric_name=cpu.usage_steel OR metric_name=cpu.usage_system OR metric_name=cpu.usage_user host="ip-10-0-0-173" by metric_name, host span=10s
+                    <query>| mstats avg(_value) as value where `telegraf_index` metric_name=cpu.usage_iowait OR metric_name=cpu.usage_steel OR metric_name=cpu.usage_system OR metric_name=cpu.usage_user host=* by metric_name, host span=10s
 | eval {metric_name}=value
 | stats first(cpu.*) as "cpu.*" by _time, host
 | eval cpu.usage=('cpu.usage_iowait'+'cpu.usage_system'+'cpu.usage_user')
@@ -107,7 +107,7 @@
             <title>TOP 10 Windows most CPU busy over last 60 min</title>
             <viz type="horizon_chart_app.horizon_chart">
                 <search>
-                    <query>| mstats avg(_value) as Percent_Idle where `telegraf_index` metric_name="win_cpu.Percent_Idle_Time" instance=_Total host="EC2AMAZ-30M2H7E" by host span=10s
+                    <query>| mstats avg(_value) as Percent_Idle where `telegraf_index` metric_name="win_cpu.Percent_Idle_Time" instance=_Total host=* by host span=10s
 | eval cpu_usage=100-Percent_Idle
 | timechart useother=f limit=20 `telegraf_span` avg(cpu_usage) AS "avg cpu load %" by host</query>
                     <earliest>-60m</earliest>
