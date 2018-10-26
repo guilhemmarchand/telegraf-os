@@ -1,0 +1,111 @@
+<dashboard stylesheet="DA-ITSI-TELEGRAF-OS:common.css" hideEdit="true" isVisible="true">
+  <label>Telegraf metrics - Windows DFS Namespace</label>
+  <fieldset autoRun="false" submitButton="false">
+      <input type="time" searchWhenChanged="true">
+          <label></label>
+          <default>
+              <earliestTime>-4h</earliestTime>
+              <latestTime>now</latestTime>
+          </default>
+      </input>
+      <input type="dropdown" token="host" searchWhenChanged="true">
+        <label>Host(s):</label>
+        <!-- Populating Data Model Search -->
+        <search>
+          <query>| savedsearch telegraf-os-windows | where windows_dfsn="true" | sort 0 host | table host</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <prefix>host="</prefix>
+        <suffix>"</suffix>
+        <fieldForLabel>host</fieldForLabel>
+        <fieldForValue>host</fieldForValue>
+      </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>| savedsearch DA-ITSI-TELEGRAF-OS-Host_Search_windows $host$</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <search id="global">
+      <query>| mstats sum(_value) as value where `telegraf_index` metric_name="win_dfsn.Requests_*" $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(win_dfsn.*) as "*_counter" by _time
+| streamstats current=f last(*_counter) as "*_prev"
+| eval Requests_Failed=(Requests_Failed_counter-Requests_Failed_prev), Requests_Processed=(Requests_Processed_counter-Requests_Processed_prev)
+| where Requests_Failed>=0 AND Requests_Processed>=0
+| fields - *_counter, *_prev
+| timechart `telegraf_span` sum(*) as "*"</query>
+      <earliest>$earliest$</earliest>
+      <latest>$latest$</latest>
+  </search>
+  <row>
+    <panel>
+      <chart>
+        <title>Requests_Processed</title>
+        <search base="global">
+          <query>fields _time, Requests_Processed</query>
+        </search>
+        <option name="charting.chart">column</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Requests_Failed</title>
+        <search base="global">
+          <query>fields _time, Requests_Failed</query>
+        </search>
+        <option name="charting.chart">column</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Avg._Response_Time</title>
+        <search>
+      <query>| mstats avg(_value) as value where `telegraf_index` metric_name="win_dfsn.Avg._Response_Time" $host$ by metric_name span=1s
+| timechart `telegraf_span` avg(value) as Avg_Response_Time</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+</dashboard>

@@ -1,0 +1,1602 @@
+<dashboard stylesheet="telegraf-os:common.css,telegraf-os:table_bar.css" script="telegraf-os:table_bar.js" hideEdit="true" isVisible="true">
+    <label>Telegraf OS metrics - Linux</label>
+    <fieldset autoRun="false" submitButton="false">
+        <input type="time" searchWhenChanged="true">
+            <label></label>
+            <default>
+                <earliestTime>-4h</earliestTime>
+                <latestTime>now</latestTime>
+            </default>
+        </input>
+        <input type="dropdown" token="host" searchWhenChanged="true">
+            <label>Host(s):</label>
+            <!-- Populating Data Model Search -->
+            <search>
+                <query>| savedsearch telegraf-os-linux | sort 0 host | table host</query>
+                <earliest>$earliest$</earliest>
+                <latest>$latest$</latest>
+            </search>
+            <prefix>host="</prefix>
+            <suffix>"</suffix>
+            <fieldForLabel>host</fieldForLabel>
+            <fieldForValue>host</fieldForValue>
+        </input>
+    </fieldset>
+    <row>
+        <panel>
+            <table>
+                <search>
+                    <query>| savedsearch DA-ITSI-TELEGRAF-OS-Host_Search_linux $host$</query>
+                    <earliest>-24h@h</earliest>
+                    <latest>now</latest>
+                    <sampleRatio>1</sampleRatio>
+                </search>
+                <option name="count">20</option>
+                <option name="dataOverlayMode">none</option>
+                <option name="drilldown">none</option>
+                <option name="percentagesRow">false</option>
+                <option name="rowNumbers">false</option>
+                <option name="totalsRow">false</option>
+                <option name="wrap">true</option>
+            </table>
+        </panel>
+        <panel>
+            <viz type="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter">
+                <search>
+                    <query>| savedsearch DA-ITSI-TELEGRAF-OS-Context_Chart_CPU_Search_linux $host$ | rename pct_used as "avg % cpu"</query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="drilldown">none</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.backgroundColor">#fff</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.dialColor">#d0d5d9</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxRangeColor">#b44441</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxRangeThreshold">80</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxValue">100</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.midRangeColor">#fbcd2f</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.midRangeThreshold">55</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.minRangeColor">#3fc77a</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.minValue">0</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.thresholdStyle">percentage</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.useRangemap">false</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.valueColor">#779ecb</option>
+                <option name="trellis.enabled">0</option>
+                <option name="trellis.scales.shared">1</option>
+                <option name="trellis.size">medium</option>
+                <option name="height">150</option>
+            </viz>
+        </panel>
+        <panel>
+            <viz type="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter">
+                <search>
+                    <query>| savedsearch DA-ITSI-TELEGRAF-OS-Context_Chart_Memory_Search_linux $host$ | rename pct_used as "avg % mem"</query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="drilldown">none</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.backgroundColor">#fff</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.dialColor">#d0d5d9</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxRangeColor">#b44441</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxRangeThreshold">80</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxValue">100</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.midRangeColor">#fbcd2f</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.midRangeThreshold">55</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.minRangeColor">#3fc77a</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.minValue">0</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.thresholdStyle">percentage</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.useRangemap">false</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.valueColor">#779ecb</option>
+                <option name="trellis.enabled">0</option>
+                <option name="trellis.scales.shared">1</option>
+                <option name="trellis.size">medium</option>
+                <option name="height">150</option>
+            </viz>
+        </panel>
+        <panel>
+            <viz type="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter">
+                <search>
+                    <query>| savedsearch DA-ITSI-TELEGRAF-OS-Context_Chart_Disk_Usage_Search_linux $host$ | rename pct_used as "% disk used"</query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="drilldown">none</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.backgroundColor">#fff</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.dialColor">#d0d5d9</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxRangeColor">#b44441</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxRangeThreshold">80</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxValue">100</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.midRangeColor">#fbcd2f</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.midRangeThreshold">55</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.minRangeColor">#3fc77a</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.minValue">0</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.thresholdStyle">percentage</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.useRangemap">false</option>
+                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.valueColor">#779ecb</option>
+                <option name="trellis.enabled">0</option>
+                <option name="trellis.scales.shared">1</option>
+                <option name="trellis.size">medium</option>
+                <option name="height">150</option>
+            </viz>
+        </panel>
+    </row>
+
+    <row>
+        <panel>
+            <input type="link" token="top_linkinput">
+                <label></label>
+                <choice value="chart1">OVERVIEW</choice>
+                <choice value="chart2">CPU OVERVIEW</choice>
+                <choice value="chart3">PROCESSES</choice>
+                <choice value="chart4">MEMORY</choice>
+                <choice value="chart5">DISKIO</choice>
+                <choice value="chart6">NET</choice>
+                <choice value="chart7">NETCONNECTIONS</choice>
+                <choice value="chart8">DISK</choice>
+                <choice value="chart9">UPTIME</choice>
+                <choice value="chart10">FORECAST</choice>
+                <default>chart1</default>
+                <change>
+                    <condition value="chart1">
+                        <set token="chart1">true</set>
+                        <unset token="chart2"></unset>
+                        <unset token="chart3"></unset>
+                        <unset token="chart4"></unset>
+                        <unset token="chart5"></unset>
+                        <unset token="chart6"></unset>
+                        <unset token="chart7"></unset>
+                        <unset token="chart8"></unset>
+                        <unset token="chart9"></unset>
+                        <unset token="chart10"></unset>
+                    </condition>
+                    <condition value="chart2">
+                        <set token="chart2">true</set>
+                        <unset token="chart1"></unset>
+                        <unset token="chart3"></unset>
+                        <unset token="chart4"></unset>
+                        <unset token="chart5"></unset>
+                        <unset token="chart6"></unset>
+                        <unset token="chart7"></unset>
+                        <unset token="chart8"></unset>
+                        <unset token="chart9"></unset>
+                        <unset token="chart10"></unset>
+                    </condition>
+                    <condition value="chart3">
+                        <set token="chart3">true</set>
+                        <unset token="chart1"></unset>
+                        <unset token="chart2"></unset>
+                        <unset token="chart4"></unset>
+                        <unset token="chart5"></unset>
+                        <unset token="chart6"></unset>
+                        <unset token="chart7"></unset>
+                        <unset token="chart8"></unset>
+                        <unset token="chart9"></unset>
+                        <unset token="chart10"></unset>
+                    </condition>
+                    <condition value="chart4">
+                        <set token="chart4">true</set>
+                        <unset token="chart1"></unset>
+                        <unset token="chart2"></unset>
+                        <unset token="chart3"></unset>
+                        <unset token="chart5"></unset>
+                        <unset token="chart6"></unset>
+                        <unset token="chart7"></unset>
+                        <unset token="chart8"></unset>
+                        <unset token="chart9"></unset>
+                        <unset token="chart10"></unset>
+                    </condition>
+                    <condition value="chart5">
+                        <set token="chart5">true</set>
+                        <unset token="chart1"></unset>
+                        <unset token="chart2"></unset>
+                        <unset token="chart3"></unset>
+                        <unset token="chart4"></unset>
+                        <unset token="chart6"></unset>
+                        <unset token="chart7"></unset>
+                        <unset token="chart8"></unset>
+                        <unset token="chart9"></unset>
+                        <unset token="chart10"></unset>
+                    </condition>
+                    <condition value="chart6">
+                        <set token="chart6">true</set>
+                        <unset token="chart1"></unset>
+                        <unset token="chart2"></unset>
+                        <unset token="chart3"></unset>
+                        <unset token="chart4"></unset>
+                        <unset token="chart5"></unset>
+                        <unset token="chart7"></unset>
+                        <unset token="chart8"></unset>
+                        <unset token="chart9"></unset>
+                        <unset token="chart10"></unset>
+                    </condition>
+                    <condition value="chart7">
+                        <set token="chart7">true</set>
+                        <unset token="chart1"></unset>
+                        <unset token="chart2"></unset>
+                        <unset token="chart3"></unset>
+                        <unset token="chart4"></unset>
+                        <unset token="chart5"></unset>
+                        <unset token="chart6"></unset>
+                        <unset token="chart8"></unset>
+                        <unset token="chart9"></unset>
+                        <unset token="chart10"></unset>
+                    </condition>
+                    <condition value="chart8">
+                        <set token="chart8">true</set>
+                        <unset token="chart1"></unset>
+                        <unset token="chart2"></unset>
+                        <unset token="chart3"></unset>
+                        <unset token="chart4"></unset>
+                        <unset token="chart5"></unset>
+                        <unset token="chart6"></unset>
+                        <unset token="chart7"></unset>
+                        <unset token="chart9"></unset>
+                        <unset token="chart10"></unset>
+                    </condition>
+                    <condition value="chart9">
+                        <set token="chart9">true</set>
+                        <unset token="chart1"></unset>
+                        <unset token="chart2"></unset>
+                        <unset token="chart3"></unset>
+                        <unset token="chart4"></unset>
+                        <unset token="chart5"></unset>
+                        <unset token="chart6"></unset>
+                        <unset token="chart7"></unset>
+                        <unset token="chart8"></unset>
+                        <unset token="chart10"></unset>
+                    </condition>
+                    <condition value="chart10">
+                        <set token="chart10">true</set>
+                        <unset token="chart1"></unset>
+                        <unset token="chart2"></unset>
+                        <unset token="chart3"></unset>
+                        <unset token="chart4"></unset>
+                        <unset token="chart5"></unset>
+                        <unset token="chart6"></unset>
+                        <unset token="chart7"></unset>
+                        <unset token="chart8"></unset>
+                        <unset token="chart9"></unset>
+                    </condition>
+                </change>
+            </input>
+        </panel>
+    </row>
+
+    <row depends="$chart1$">
+        <panel>
+            <chart>
+                <title>CPU utilization summary</title>
+                <search depends="$chart1$">
+                    <query>| mstats avg(_value) as value where `telegraf_index` metric_name=cpu.usage_iowait OR metric_name=cpu.usage_steel OR metric_name=cpu.usage_system OR metric_name=cpu.usage_user $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(cpu.*) as "cpu.*" by _time
+| eval cpu.usage=('cpu.usage_iowait'+'cpu.usage_system'+'cpu.usage_user')
+| timechart `telegraf_span` max(cpu.usage) AS "max cpu load %", avg(cpu.usage) AS "avg cpu load %"
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisY.maximumNumber">100</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>Uptime load average</title>
+                <search depends="$chart1$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=system.load1 OR metric_name=system.load5 OR metric_name=system.load15 $host$ groupby metric_name, host span=1s
+| eval {metric_name}=value
+| timechart `telegraf_span` avg(system.load1) as load_average_1min, avg(system.load5) as load_average_5min, avg(system.load15) as load_average_15min
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>Memory (%)</title>
+                <search depends="$chart1$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=mem.used_percent OR metric_name=swap.used_percent $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(*.used_percent) as "*.used_percent" by _time
+| timechart `telegraf_span` avg(mem.used_percent) AS "mem used (%)", avg(swap.used_percent) AS "swap used (%)"
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+    </row>
+
+    <row depends="$chart1$">
+        <panel>
+            <table id="tablebar">
+                <title>file-systems usage</title>
+                <search depends="$chart1$">
+                    <query>| mstats latest(_value) as value where `telegraf_index` metric_name=disk.used OR metric_name=disk.total OR metric_name=disk.used_percent `devices_exclusions` $host$ by metric_name, path
+| eval {metric_name}=value
+| stats first(disk.*) as "disk.*" by path
+| eval "disk.total"=round(((('disk.total' / 1024) / 1024) / 1024),2), used_pct=round('disk.used_percent',2)
+| rename disk.total as "disk total (GB)"
+| fields path, "disk total (GB)", used_pct
+| sort 0 device</query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="wrap">true</option>
+                <option name="rowNumbers">false</option>
+                <option name="dataOverlayMode">none</option>
+                <option name="drilldown">row</option>
+                <option name="count">10</option>
+            </table>
+        </panel>
+        <panel>
+            <chart>
+                <title>Network inbound/outbound traffic (KBps)</title>
+                <search depends="$chart1$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=net.bytes_recv OR metric_name=net.bytes_sent $host$ by metric_name, interface span=1s
+| eval {metric_name}=value
+| stats first(net.*) as "*_counter" by _time, interface
+| streamstats current=f last(*_counter) as "*_prev" by interface
+| eval inbound=((bytes_recv_counter-bytes_recv_prev)/1024), outbound=((bytes_sent_counter-bytes_sent_prev)/1024)
+| fields _time, interface, inbound, outbound
+| where NOT (inbound&lt;0) AND NOT (outbound&lt;0)
+| timechart `telegraf_span` avg(inbound) as inbound, avg(outbound) as outbound | eval outbound = "-" . outbound
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+                <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.text">KBps</option>
+                <option name="charting.axisTitleY.visibility">visible</option>
+                <option name="charting.axisTitleY2.visibility">visible</option>
+                <option name="charting.axisX.scale">linear</option>
+                <option name="charting.axisY.scale">linear</option>
+                <option name="charting.axisY2.enabled">0</option>
+                <option name="charting.axisY2.scale">inherit</option>
+                <option name="charting.chart">area</option>
+                <option name="charting.chart.bubbleMaximumSize">50</option>
+                <option name="charting.chart.bubbleMinimumSize">10</option>
+                <option name="charting.chart.bubbleSizeBy">area</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+                <option name="charting.chart.stackMode">default</option>
+                <option name="charting.chart.style">shiny</option>
+                <option name="charting.drilldown">all</option>
+                <option name="charting.fieldColors">{"inbound": 0xBDBD5E, "outbound": 0x5F7396}</option>
+                <option name="charting.layout.splitSeries">0</option>
+                <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+                <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+                <option name="charting.legend.placement">top</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>Disk MB/s</title>
+                <search depends="$chart1$">
+                    <query>| mstats latest(_value) as value where `telegraf_index` metric_name=diskio.write_bytes OR metric_name=diskio.read_bytes $host$ name=* by metric_name, name span=1s
+| eval {metric_name}=value
+| stats first(diskio.*) as "*_counter" by _time, name
+| streamstats current=f last(*_counter) as "*_prev" by name
+| eval write_bytes=((write_bytes_counter-write_bytes_prev)/10000000), read_bytes=((read_bytes_counter-read_bytes_prev)/10000000)
+| fields _time, name, write_bytes, read_bytes
+| where NOT (write_bytes&lt;0) AND NOT (read_bytes&lt;0)
+| timechart useother=f limit=45 `telegraf_span` avg(write_bytes) as write_bytes, avg(read_bytes) as read_bytes by name
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+    </row>
+
+    <row depends="$chart2$">
+        <panel>
+            <chart>
+                <title>CPU Usage by category</title>
+                <search depends="$chart2$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=cpu.usage_iowait OR metric_name=cpu.usage_steel OR metric_name=cpu.usage_system OR metric_name=cpu.usage_user OR metric_name=cpu.usage_idle $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(cpu.*) as "cpu.*" by _time
+| timechart `telegraf_span` avg(cpu.usage_*) AS "avg cpu * %"
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">area</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisY.maximumNumber">100</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+                <option name="charting.chart.stackMode">stacked</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>CPU Usage by core</title>
+                <search depends="$chart2$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=cpu.usage_iowait OR metric_name=cpu.usage_steel OR metric_name=cpu.usage_system OR metric_name=cpu.usage_user $host$ by metric_name, cpu span=1s
+| eval {metric_name}=value
+| stats first(cpu.*) as "cpu.*" by _time, cpu
+| eval cpu.usage=('cpu.usage_iowait'+'cpu.usage_system'+'cpu.usage_user')
+| timechart useother=f limit=45 `telegraf_span` avg(cpu.usage) AS "avg cpu load %" by cpu
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisY.maximumNumber">100</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>Number of running processes</title>
+                <search depends="$chart2$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=processes.total $host$ span=1s
+| timechart `telegraf_span` avg(value) as running_processes
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+    </row>
+
+    <row depends="$chart2$">
+        <panel>
+            <chart>
+                <title>Processes CPU usage (%, top 20)</title>
+                <search depends="$chart2$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=procstat.cpu_usage $host$ by process_name span=1s
+| timechart useother=f limit=20 `telegraf_span` avg(value) AS "cpu %" by process_name
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">area</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+                <option name="charting.chart.stackMode">stacked</option>
+            </chart>
+        </panel>
+    </row>
+
+    <row depends="$chart3$">
+        <panel>
+            <chart>
+                <title>blocked</title>
+                <search depends="$chart3$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=processes.blocked $host$ span=1s
+| timechart `telegraf_span` avg(value) as blocked
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>dead</title>
+                <search depends="$chart3$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=processes.dead $host$ span=1s
+| timechart `telegraf_span` avg(value) as dead
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>idle</title>
+                <search depends="$chart3$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=processes.idle $host$ span=1s
+| timechart `telegraf_span` avg(value) as idle
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>paging</title>
+                <search depends="$chart3$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=processes.paging $host$ span=1s
+| timechart `telegraf_span` avg(value) as paging
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+    </row>
+
+    <row depends="$chart3$">
+        <panel>
+            <chart>
+                <title>running</title>
+                <search depends="$chart3$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=processes.running $host$ span=1s
+| timechart `telegraf_span` avg(value) as running
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>sleeping</title>
+                <search depends="$chart3$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=processes.sleeping $host$ span=1s
+| timechart `telegraf_span` avg(value) as sleeping
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>stopped</title>
+                <search depends="$chart3$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=processes.stopped $host$ span=1s
+| timechart `telegraf_span` avg(value) as stopped
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>total</title>
+                <search depends="$chart3$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=processes.total $host$ span=1s
+| timechart `telegraf_span` avg(value) as total
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+    </row>
+
+    <row depends="$chart3$">
+        <panel>
+            <chart>
+                <title>total_threads</title>
+                <search depends="$chart3$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=processes.total_threads $host$ span=1s
+| timechart `telegraf_span` avg(value) as total_threads
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>unknown</title>
+                <search depends="$chart3$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=processes.unknown $host$ span=1s
+| timechart `telegraf_span` avg(value) as unknown
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+        <panel>
+            <chart>
+                <title>zombies</title>
+                <search depends="$chart3$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=processes.zombies $host$ span=1s
+| timechart `telegraf_span` avg(value) as zombies
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+    </row>
+
+    <row depends="$chart4$">
+
+        <panel>
+            <chart>
+                <title>Memory used/available (GB)</title>
+                <search depends="$chart4$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=mem.cached OR metric_name=mem.buffered OR metric_name=mem.free OR metric_name=mem.used OR metric_name=mem.total $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(mem.*) as "mem.*" by _time
+| foreach mem.* [ eval &lt;&lt;FIELD&gt;&gt; = '&lt;&lt;FIELD&gt;&gt;'/1073741824 ]
+| timechart `telegraf_span` avg(mem.*) AS "*" | where isnotnull(total)
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.axisX.scale">linear</option>
+                <option name="charting.axisY.scale">linear</option>
+                <option name="charting.chart">area</option>
+                <option name="charting.chart.nullValueMode">connect</option>
+                <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+                <option name="charting.chart.stackMode">stacked</option>
+                <option name="charting.chart.style">shiny</option>
+                <option name="charting.drilldown">all</option>
+                <option name="charting.layout.splitSeries">0</option>
+                <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+                <option name="charting.legend.placement">bottom</option>
+                <option name="charting.axisY.minimumNumber">0</option>
+                <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+                <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+                <option name="charting.axisTitleY2.visibility">visible</option>
+                <option name="charting.axisY2.enabled">0</option>
+                <option name="charting.axisY2.scale">inherit</option>
+                <option name="charting.chart.bubbleMaximumSize">50</option>
+                <option name="charting.chart.bubbleMinimumSize">10</option>
+                <option name="charting.chart.bubbleSizeBy">area</option>
+                <option name="charting.chart.overlayFields">total</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+                <option name="charting.fieldColors">{"total": 0xe50000}</option>
+                <option name="refresh.display">none</option>
+            </chart>
+        </panel>
+
+        <panel>
+            <chart>
+                <title>Swap used/global (GB)</title>
+                <search depends="$chart4$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=swap.used OR metric_name=swap.total OR metric_name=swap.free $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(swap.*) as "swap.*" by _time
+| foreach swap.* [ eval &lt;&lt;FIELD&gt;&gt; = '&lt;&lt;FIELD&gt;&gt;'/1073741824 ]
+| timechart `telegraf_span` avg(swap.*) AS "*" | where isnotnull(total)
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.axisX.scale">linear</option>
+                <option name="charting.axisY.scale">linear</option>
+                <option name="charting.chart">area</option>
+                <option name="charting.chart.nullValueMode">connect</option>
+                <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+                <option name="charting.chart.stackMode">stacked</option>
+                <option name="charting.chart.style">shiny</option>
+                <option name="charting.drilldown">all</option>
+                <option name="charting.layout.splitSeries">0</option>
+                <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+                <option name="charting.legend.placement">bottom</option>
+                <option name="charting.axisY.minimumNumber">0</option>
+                <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+                <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+                <option name="charting.axisTitleY2.visibility">visible</option>
+                <option name="charting.axisY2.enabled">0</option>
+                <option name="charting.axisY2.scale">inherit</option>
+                <option name="charting.chart.bubbleMaximumSize">50</option>
+                <option name="charting.chart.bubbleMinimumSize">10</option>
+                <option name="charting.chart.bubbleSizeBy">area</option>
+                <option name="charting.chart.overlayFields">total</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+                <option name="charting.fieldColors">{"total": 0xe50000}</option>
+                <option name="refresh.display">none</option>
+            </chart>
+        </panel>
+
+        <panel>
+            <chart>
+                <title>Swap In / Out (MB)</title>
+                <search depends="$chart4$">
+                    <query>
+| mstats avg(_value) as value where `telegraf_index` metric_name=swap.in OR metric_name=swap.out $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(swap.*) as "swap.*" by _time
+| foreach swap.* [ eval &lt;&lt;FIELD&gt;&gt; = '&lt;&lt;FIELD&gt;&gt;'/1048576 ]
+| timechart `telegraf_span` avg(swap.*) AS "*"
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+    </row>
+
+    <row depends="$chart4$">
+
+        <panel>
+            <chart>
+                <title>Processes - Resident Memory (MB, top 20)</title>
+                <search depends="$chart4$">
+                    <query>
+| mstats avg(_value) as memory_rss where `telegraf_index` metric_name=procstat.memory_rss $host$ by process_name span=1s
+| eval memory_rss=memory_rss/1000000
+| timechart useother=f limit=20 `telegraf_span` avg(memory_rss) AS "memory_rss " by process_name
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">area</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+                <option name="charting.chart.stackMode">stacked</option>
+            </chart>
+        </panel>
+
+    </row>
+
+    <row depends="$chart5$">
+
+        <panel>
+            <chart>
+                <title>io_time (milliseconds)</title>
+                <search depends="$chart5$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=diskio.io_time $host$ name=* by metric_name, name span=1s
+| eval {metric_name}=value
+| stats first(diskio.*) as "*_counter" by _time, name
+| streamstats current=f last(*_counter) as "*_prev" by name
+| eval io_time=((io_time_counter-io_time_prev))
+| fields _time, name, io_time
+| where NOT (io_time&lt;0)
+| timechart useother=f limit=45 `telegraf_span` avg(io_time) as io_time by name
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+
+        <panel>
+            <chart>
+                <title>iops_in_progress (nb)</title>
+                <search depends="$chart5$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=diskio.iops_in_progress $host$ name=* by metric_name, name span=1s
+| eval {metric_name}=value
+| stats first(diskio.*) as "*_counter" by _time, name
+| streamstats current=f last(*_counter) as "*_prev" by name
+| eval iops_in_progress=((iops_in_progress_counter-iops_in_progress_prev))
+| fields _time, name, iops_in_progress
+| where NOT (iops_in_progress&lt;0)
+| timechart useother=f limit=45 `telegraf_span` avg(iops_in_progress) as iops_in_progress by name
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+        <panel>
+            <chart>
+                <title>weighted_io_time (milliseconds)</title>
+                <search depends="$chart5$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=diskio.weighted_io_time $host$ name=* by metric_name, name span=1s
+| eval {metric_name}=value
+| stats first(diskio.*) as "*_counter" by _time, name
+| streamstats current=f last(*_counter) as "*_prev" by name
+| eval weighted_io_time=((weighted_io_time_counter-weighted_io_time_prev))
+| fields _time, name, weighted_io_time
+| where NOT (weighted_io_time&lt;0)
+| timechart useother=f limit=45 `telegraf_span` avg(weighted_io_time) as weighted_io_time by name
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+    </row>
+
+    <row depends="$chart5$">
+
+        <panel>
+            <chart>
+                <title>read_bytes (MB/s)</title>
+                <search depends="$chart5$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=diskio.read_bytes $host$ name=* by metric_name, name span=1s
+| eval {metric_name}=value
+| stats first(diskio.*) as "*_counter" by _time, name
+| streamstats current=f last(*_counter) as "*_prev" by name
+| eval read_bytes=((read_bytes_counter-read_bytes_prev)/10000000)
+| fields _time, name, read_bytes
+| where NOT (read_bytes&lt;0)
+| timechart useother=f limit=45 `telegraf_span` avg(read_bytes) as read_bytes by name
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+        <panel>
+            <chart>
+                <title>read_time (milliseconds)</title>
+                <search depends="$chart5$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=diskio.read_time $host$ name=* by metric_name, name span=1s
+| eval {metric_name}=value
+| stats first(diskio.*) as "*_counter" by _time, name
+| streamstats current=f last(*_counter) as "*_prev" by name
+| eval read_time=(read_time_counter-read_time_prev)
+| fields _time, name, read_time
+| where NOT (read_time&lt;0)
+| timechart useother=f limit=45 `telegraf_span` avg(read_time) as read_time by name
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+
+        <panel>
+            <chart>
+                <title>reads (nb)</title>
+                <search depends="$chart5$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=diskio.reads $host$ name=* by metric_name, name span=1s
+| eval {metric_name}=value
+| stats first(diskio.*) as "*_counter" by _time, name
+| streamstats current=f last(*_counter) as "*_prev" by name
+| eval reads=(reads_counter-reads_prev)
+| fields _time, name, reads
+| where NOT (reads&lt;0)
+| timechart useother=f limit=45 `telegraf_span` avg(reads) as reads by name
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+    </row>
+
+
+    <row depends="$chart5$">
+
+        <panel>
+            <chart>
+                <title>write_bytes (MB/s)</title>
+                <search depends="$chart5$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=diskio.write_bytes $host$ name=* by metric_name, name span=1s
+| eval {metric_name}=value
+| stats first(diskio.*) as "*_counter" by _time, name
+| streamstats current=f last(*_counter) as "*_prev" by name
+| eval write_bytes=((write_bytes_counter-write_bytes_prev)/10000000)
+| fields _time, name, write_bytes
+| where NOT (write_bytes&lt;0)
+| timechart useother=f limit=45 `telegraf_span` avg(write_bytes) as write_bytes by name
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+        <panel>
+            <chart>
+                <title>write_time (milliseconds)</title>
+                <search depends="$chart5$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=diskio.write_time $host$ name=* by metric_name, name span=1s
+| eval {metric_name}=value
+| stats first(diskio.*) as "*_counter" by _time, name
+| streamstats current=f last(*_counter) as "*_prev" by name
+| eval write_time=(write_time_counter-write_time_prev)
+| fields _time, name, write_time
+| where NOT (write_time&lt;0)
+| timechart useother=f limit=45 `telegraf_span` avg(write_time) as write_time by name
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+        <panel>
+            <chart>
+                <title>writes (nb)</title>
+                <search depends="$chart5$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=diskio.writes $host$ name=* by metric_name, name span=1s
+| eval {metric_name}=value
+| stats first(diskio.*) as "*_counter" by _time, name
+| streamstats current=f last(*_counter) as "*_prev" by name
+| eval writes=(writes_counter-writes_prev)
+| fields _time, name, writes
+| where NOT (writes&lt;0)
+| timechart useother=f limit=45 `telegraf_span` avg(writes) as writes by name
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">none</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+    </row>
+
+    <row depends="$chart6$">
+
+        <panel>
+            <chart>
+                <title>Inbound traffic (KBps)</title>
+                <search depends="$chart6$">
+                    <query>
+| mstats latest(_value) as counter where `telegraf_index` metric_name=net.bytes_recv $host$ by interface span=1s
+| streamstats current=f last(counter) as counter_prev by interface
+| eval bytes_recv=((counter-counter_prev)/1024)
+| where NOT (bytes_recv&lt;0)
+| timechart useother=f limit=45 `telegraf_span` avg(bytes_recv) as bytes_recv by interface
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+        <panel>
+            <chart>
+                <title>Inbound packets</title>
+                <search depends="$chart6$">
+                    <query>
+| mstats latest(_value) as counter where `telegraf_index` metric_name=net.packets_recv $host$ by interface span=1s
+| streamstats current=f last(counter) as counter_prev by interface
+| eval packets_recv=((counter-counter_prev))
+| where NOT (packets_recv&lt;0)
+| timechart useother=f limit=45 `telegraf_span` sum(packets_recv) as packets_recv by interface
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+    </row>
+
+    <row depends="$chart6$">
+
+        <panel>
+            <chart>
+                <title>Outbound traffic (KBps)</title>
+                <search depends="$chart6$">
+                    <query>
+| mstats latest(_value) as counter where `telegraf_index` metric_name=net.bytes_sent $host$ by interface span=1s
+| streamstats current=f last(counter) as counter_prev by interface
+| eval bytes_sent=((counter-counter_prev)/1024)
+| where NOT (bytes_sent&lt;0)
+| timechart useother=f limit=45 `telegraf_span` avg(bytes_sent) as bytes_sent by interface
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+        <panel>
+            <chart>
+                <title>Inbound packets</title>
+                <search depends="$chart6$">
+                    <query>
+| mstats latest(_value) as counter where `telegraf_index` metric_name=net.packets_sent $host$ by interface span=1s
+| streamstats current=f last(counter) as counter_prev by interface
+| eval packets_sent=((counter-counter_prev))
+| where NOT (packets_sent&lt;0)
+| timechart useother=f limit=45 `telegraf_span` sum(packets_sent) as packets_sent by interface
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+    </row>
+
+    <row depends="$chart6$">
+
+        <panel>
+            <chart>
+                <title>Error in</title>
+                <search depends="$chart6$">
+                    <query>
+| mstats latest(_value) as counter where `telegraf_index` metric_name=net.err_in $host$ by interface span=1s
+| streamstats current=f last(counter) as counter_prev by interface
+| eval err_in=((counter-counter_prev))
+| where NOT (err_in&lt;0)
+| timechart useother=f limit=45 `telegraf_span` sum(err_in) as err_in by interface
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+        <panel>
+            <chart>
+                <title>Error out</title>
+                <search depends="$chart6$">
+                    <query>
+| mstats latest(_value) as counter where `telegraf_index` metric_name=net.err_out $host$ by interface span=1s
+| streamstats current=f last(counter) as counter_prev by interface
+| eval err_out=((counter-counter_prev))
+| where NOT (err_out&lt;0)
+| timechart useother=f limit=45 `telegraf_span` sum(err_out) as err_out by interface
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+        <panel>
+            <chart>
+                <title>Drop in</title>
+                <search depends="$chart6$">
+                    <query>
+| mstats latest(_value) as counter where `telegraf_index` metric_name=net.drop_in $host$ by interface span=1s
+| streamstats current=f last(counter) as counter_prev by interface
+| eval drop_in=((counter-counter_prev))
+| where NOT (drop_in&lt;0)
+| timechart useother=f limit=45 `telegraf_span` sum(drop_in) as drop_in by interface
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+        <panel>
+            <chart>
+                <title>Drop out</title>
+                <search depends="$chart6$">
+                    <query>
+| mstats latest(_value) as counter where `telegraf_index` metric_name=net.drop_out $host$ by interface span=1s
+| streamstats current=f last(counter) as counter_prev by interface
+| eval drop_out=((counter-counter_prev))
+| where NOT (drop_out&lt;0)
+| timechart useother=f limit=45 `telegraf_span` sum(drop_out) as drop_out by interface
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+    </row>
+
+    <row depends="$chart7$">
+
+        <panel>
+            <chart>
+                <title>Network Open Sockets</title>
+                <search depends="$chart7$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=netstat.tcp_established OR metric_name=netstat.udp_socket $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(netstat.*) as "*" by _time
+| timechart `telegraf_span` max(tcp_established) as tcp_established, max(udp_socket) as udp_socket
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">zero</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+        <panel>
+            <chart>
+                <title>Network Sockets Created/Second</title>
+                <search depends="$chart7$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=netstat.tcp_established OR metric_name=netstat.udp_socket $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(netstat.*) as "*_counter" by _time
+| streamstats current=f last(*_counter) as "*_prev"
+| eval tcp_established=((tcp_established_counter-tcp_established_prev)), udp_socket=((udp_socket_counter-udp_socket_prev))
+| fields _time, interface, tcp_established, udp_socket
+| where NOT (tcp_established&lt;0) AND NOT (udp_socket&lt;0)
+| timechart `telegraf_span` sum(tcp_established) as tcp_established, sum(udp_socket) as udp_socket
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">zero</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+            </chart>
+        </panel>
+
+    </row>
+
+    <row depends="$chart8$">
+
+        <panel>
+            <chart>
+                <title>used_percent</title>
+                <search>
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=disk.used_percent $host$ by path span=1s
+| timechart useother=f limit=45 `telegraf_span` avg(value) as used_percent by path
+                    </query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+                <option name="height">500</option>
+            </chart>
+        </panel>
+
+    </row>
+
+    <row depends="$chart9$">
+
+        <panel>
+            <search id="GlobalSearch" depends="$chart9$">
+                <query>| mstats latest(_value) as uptime where `telegraf_index` metric_name=system.uptime $host$
+| eval now=now()
+| sort host
+| eval "Date of last system startup (mm/dd/Y HH:MM)"=strftime((now()-uptime), "%m/%d/%Y %H:%M")
+| eval "uptime (human duration)"=tostring(uptime, "duration")
+| fields uptime,"uptime (human duration)","Date of last system startup (mm/dd/Y HH:MM)"
+| rename uptime AS "uptime (in seconds)"</query>
+                <earliest>-60m</earliest>
+                <latest>now</latest>
+            </search>
+            <single>
+                <search base="GlobalSearch">
+                    <query>fields "Date of last system startup (mm/dd/Y HH:MM)"</query>
+                </search>
+                <option name="drilldown">none</option>
+                <option name="colorBy">value</option>
+                <option name="colorMode">none</option>
+                <option name="numberPrecision">0</option>
+                <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+                <option name="rangeValues">[0,30,70,100]</option>
+                <option name="showSparkline">1</option>
+                <option name="showTrendIndicator">1</option>
+                <option name="trendColorInterpretation">standard</option>
+                <option name="trendDisplayMode">absolute</option>
+                <option name="trendInterval">auto</option>
+                <option name="underLabel">LAST SYSTEM STARTUP DATE</option>
+                <option name="useColors">0</option>
+                <option name="useThousandSeparators">1</option>
+            </single>
+            <single>
+                <search base="GlobalSearch">
+                    <query>fields "uptime (human duration)"</query>
+                </search>
+                <option name="drilldown">none</option>
+                <option name="colorBy">value</option>
+                <option name="colorMode">none</option>
+                <option name="numberPrecision">0</option>
+                <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+                <option name="rangeValues">[0,30,70,100]</option>
+                <option name="showSparkline">1</option>
+                <option name="showTrendIndicator">1</option>
+                <option name="trendColorInterpretation">standard</option>
+                <option name="trendDisplayMode">absolute</option>
+                <option name="trendInterval">auto</option>
+                <option name="underLabel">LAST UPTIME DURATION (dd:HH:MM:SS)</option>
+                <option name="useColors">0</option>
+                <option name="useThousandSeparators">1</option>
+            </single>
+            <chart>
+                <search depends="$chart9$">
+                    <query>| mstats latest(_value) as uptime where `telegraf_index` metric_name=system.uptime $host$ span=1m
+| eval uptime=(uptime/86400)
+| timechart `telegraf_span` latest(uptime) as uptime</query>
+                    <earliest>-1y@d</earliest>
+                    <latest>now</latest>
+                </search>
+                <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+                <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+                <option name="charting.axisTitleX.text">Days</option>
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.axisTitleY.text">uptime in days</option>
+                <option name="charting.axisTitleY.visibility">visible</option>
+                <option name="charting.axisTitleY2.visibility">visible</option>
+                <option name="charting.axisX.scale">linear</option>
+                <option name="charting.axisY.scale">linear</option>
+                <option name="charting.axisY2.enabled">0</option>
+                <option name="charting.axisY2.scale">inherit</option>
+                <option name="charting.chart">line</option>
+                <option name="charting.chart.bubbleMaximumSize">50</option>
+                <option name="charting.chart.bubbleMinimumSize">10</option>
+                <option name="charting.chart.bubbleSizeBy">area</option>
+                <option name="charting.chart.nullValueMode">connect</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+                <option name="charting.chart.stackMode">default</option>
+                <option name="charting.chart.style">shiny</option>
+                <option name="charting.drilldown">all</option>
+                <option name="charting.layout.splitSeries">0</option>
+                <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+                <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+                <option name="charting.legend.placement">bottom</option>
+                <option name="height">400</option>
+            </chart>
+        </panel>
+
+    </row>
+
+    <row depends="$chart10$">
+
+        <panel>
+            <chart>
+                <title>Storage usage (GB) prediction for next 3 months</title>
+                <search depends="$chart10$">
+                    <query>
+| mstats latest(_value) as value where `telegraf_index` metric_name=disk.used OR metric_name=disk.total `devices_exclusions` $host$ by metric_name, path span=1d
+| eval {metric_name}=value
+| stats first(disk.used) as disk.used, first(disk.total) as disk.total by _time, path
+| stats sum(disk.used) as used, sum(disk.total) as total by _time
+| eval total=round((((total / 1024) / 1024) / 1024),2), used=round((((used / 1024) / 1024) / 1024),2)
+| timechart span="1d" perc95(used) AS storage_used latest(total) as total
+| predict storage_used As predict algorithm=LLP5 holdback=0 future_timespan=120
+| filldown total
+| foreach *
+[ eval &lt;&lt;FIELD&gt;&gt; = round('&lt;&lt;FIELD&gt;&gt;', 2) ]
+                    </query>
+                    <earliest>-30d</earliest>
+                    <latest>now</latest>
+                </search>
+                <option name="charting.chart">line</option>
+                <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+                <option name="charting.axisTitleX.visibility">collapsed</option>
+                <option name="charting.chart.nullValueMode">connect</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.legend.placement">top</option>
+                <option name="refresh.time.visible">false</option>
+                <option name="charting.fieldColors">{"blocks": 0xFF0000, "predict": 0x9d0eaf}</option>
+                <option name="height">500</option>
+            </chart>
+        </panel>
+
+    </row>
+
+</dashboard>

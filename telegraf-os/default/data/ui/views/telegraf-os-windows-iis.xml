@@ -1,0 +1,628 @@
+<dashboard stylesheet="DA-ITSI-TELEGRAF-OS:common.css" hideEdit="true" isVisible="true">
+  <label>Telegraf metrics - Microsoft IIS / ASP.NET</label>
+  <fieldset autoRun="false" submitButton="false">
+    <input type="time" searchWhenChanged="true">
+      <label></label>
+      <default>
+          <earliestTime>-4h</earliestTime>
+          <latestTime>now</latestTime>
+      </default>
+    </input>
+    <input type="dropdown" token="host" searchWhenChanged="true">
+      <label>Host(s):</label>
+      <!-- Populating Data Model Search -->
+      <search>
+        <query>| savedsearch telegraf-os-windows | where windows_iis="true" | sort 0 host | table host</query>
+        <earliest>$earliest$</earliest>
+        <latest>$latest$</latest>
+      </search>
+      <prefix>host="</prefix>
+      <suffix>"</suffix>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>| savedsearch DA-ITSI-TELEGRAF-OS-Host_Search_windows $host$</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+
+  <row>
+    <panel>
+      <input type="link" token="linkinput_tk">
+        <label></label>
+        <choice value="chart1">IIS Web service</choice>
+        <choice value="chart2">IIS Web Service Cache</choice>
+        <choice value="chart3">HTTP Service Request Queues</choice>
+        <choice value="chart4">ASP.NET</choice>
+        <choice value="chart5">ASP.NET Applications</choice>
+        <default>chart1</default>
+        <change>
+          <condition value="chart1">
+            <set token="chart1">true</set>
+            <unset token="chart2"></unset>
+            <unset token="chart3"></unset>
+            <unset token="chart4"></unset>
+            <unset token="chart5"></unset>
+          </condition>
+          <condition value="chart2">
+            <set token="chart2">true</set>
+            <unset token="chart1"></unset>
+            <unset token="chart3"></unset>
+            <unset token="chart4"></unset>
+            <unset token="chart5"></unset>
+          </condition>
+          <condition value="chart3">
+            <set token="chart3">true</set>
+            <unset token="chart1"></unset>
+            <unset token="chart2"></unset>
+            <unset token="chart4"></unset>
+            <unset token="chart5"></unset>
+          </condition>
+          <condition value="chart4">
+            <set token="chart4">true</set>
+            <unset token="chart1"></unset>
+            <unset token="chart2"></unset>
+            <unset token="chart3"></unset>
+            <unset token="chart5"></unset>
+          </condition>
+          <condition value="chart5">
+            <set token="chart5">true</set>
+            <unset token="chart1"></unset>
+            <unset token="chart2"></unset>
+            <unset token="chart3"></unset>
+            <unset token="chart4"></unset>
+          </condition>
+        </change>
+      </input>
+    </panel>
+  </row>
+
+  <search id="global_win_websvc">
+    <query>| mstats avg(_value) as value where `telegraf_index` metric_name="win_websvc.*" $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(win_websvc.*) as "*" by _time
+| timechart `telegraf_span` avg(*) as "*"</query>
+    <earliest>$earliest$</earliest>
+    <latest>$latest$</latest>
+  </search>
+
+  <row depends="$chart1$">
+    <panel>
+      <chart>
+        <title>Current_Connections</title>
+        <search base="global_win_websvc">
+          <query>fields _time, Current_Connections</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+
+  <row depends="$chart1$">
+    <panel>
+      <chart>
+        <title>Get_Requests_persec</title>
+        <search base="global_win_websvc">
+          <query>fields _time, Get_Requests_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Post_Requests_persec</title>
+        <search base="global_win_websvc">
+          <query>fields _time, Post_Requests_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Connection_Attempts_persec</title>
+        <search base="global_win_websvc">
+          <query>fields _time, Connection_Attempts_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>ISAPI_Extension_Requests_persec</title>
+        <search base="global_win_websvc">
+          <query>fields _time, ISAPI_Extension_Requests_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+
+  <search id="global_win_websvc_cache" depends="$chart2$">
+    <query>| mstats avg(_value) as value where `telegraf_index` metric_name="win_websvc_cache.*" $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(win_websvc_cache.*) as "*" by _time
+| timechart `telegraf_span` avg(*) as "*"</query>
+    <earliest>$earliest$</earliest>
+    <latest>$latest$</latest>
+  </search>
+
+  <row depends="$chart2$">
+    <panel>
+      <chart>
+        <title>File_Cache_Hits_Percent</title>
+        <search base="global_win_websvc_cache">
+          <query>fields _time, File_Cache_Hits_Percent</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Kernel:_URI_Cache_Hits_Percent</title>
+        <search base="global_win_websvc_cache">
+          <query>fields _time, "Kernel:_URI_Cache_Hits_Percent"</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>URI_Cache_Hits_Percent</title>
+        <search base="global_win_websvc_cache">
+          <query>fields _time, URI_Cache_Hits_Percent</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+
+  <search id="global_win_http_queues" depends="$chart3$">
+    <query>| mstats avg(_value) as value where `telegraf_index` metric_name="win_http_queues.*" $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(win_http_queues.*) as "*" by _time
+| timechart `telegraf_span` avg(*) as "*"</query>
+    <earliest>$earliest$</earliest>
+    <latest>$latest$</latest>
+  </search>
+
+  <row depends="$chart3$">
+    <panel>
+      <chart>
+        <title>CurrentQueueSize</title>
+        <search base="global_win_http_queues">
+          <query>fields _time, CurrentQueueSize</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>RejectedRequests</title>
+        <search base="global_win_http_queues">
+          <query>fields _time, RejectedRequests</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+
+  <search id="global_win_aspnet" depends="$chart4$">
+    <query>| mstats avg(_value) as value where `telegraf_index` metric_name="win_aspnet.*" $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(win_aspnet.*) as "*" by _time
+| timechart `telegraf_span` avg(*) as "*"</query>
+    <earliest>$earliest$</earliest>
+    <latest>$latest$</latest>
+  </search>
+
+  <row depends="$chart4$">
+    <panel>
+      <chart>
+        <title>Application_Restarts</title>
+        <search base="global_win_aspnet">
+          <query>fields _time, Application_Restarts</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Request_Wait_Time</title>
+        <search base="global_win_aspnet">
+          <query>fields _time, Request_Wait_Time</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Requests_Current</title>
+        <search base="global_win_aspnet">
+          <query>fields _time, Requests_Current</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+
+  <row depends="$chart4$">
+    <panel>
+      <chart>
+        <title>Requests_Queued</title>
+        <search base="global_win_aspnet">
+          <query>fields _time, Requests_Queued</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Requests_Rejected</title>
+        <search base="global_win_aspnet">
+          <query>fields _time, Requests_Rejected</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+    </panel>
+  </row>
+
+  <search id="global_win_aspnet_app" depends="$chart5$">
+    <query>| mstats avg(_value) as value where `telegraf_index` metric_name="win_aspnet_app.*" $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(win_aspnet_app.*) as "*" by _time
+| timechart `telegraf_span` avg(*) as "*"</query>
+    <earliest>$earliest$</earliest>
+    <latest>$latest$</latest>
+  </search>
+
+  <row depends="$chart5$">
+    <panel>
+      <chart>
+        <title>Cache_Total_Entries</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Application_Restarts</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Cache_Total_Hit_Ratio</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Cache_Total_Hit_Ratio</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Cache_Total_Turnover_Rate</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Cache_Total_Turnover_Rate</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+
+  <row depends="$chart5$">
+    <panel>
+      <chart>
+        <title>Output_Cache_Entries</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Output_Cache_Entries</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Output_Cache_Hits</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Output_Cache_Hits</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Output_Cache_Hit_Ratio</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Output_Cache_Hit_Ratio</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+
+  <row depends="$chart5$">
+    <panel>
+      <chart>
+        <title>Output_Cache_Turnover_Rate</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Output_Cache_Turnover_Rate</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Compilations_Total</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Compilations_Total</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Errors_Total_persec</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Errors_Total_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+
+  <row depends="$chart5$">
+    <panel>
+      <chart>
+        <title>Pipeline_Instance_Count</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Pipeline_Instance_Count</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Requests_Executing</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Requests_Executing</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Requests_in_Application_Queue</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Requests_in_Application_Queue</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+
+  <row depends="$chart5$">
+    <panel>
+      <chart>
+        <title>Requests_persec</title>
+        <search base="global_win_aspnet_app">
+          <query>fields _time, Requests_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+    </panel>
+    <panel>
+    </panel>
+  </row>
+
+</dashboard>

@@ -1,0 +1,70 @@
+<nav search_view="search" color="#778899">
+    <view name="overview" default="true"/>
+
+    <!--
+    ####################################################################################################################
+    Analysis Workspace
+    ####################################################################################################################
+    -->
+
+    <view name="analysis_workspace" />
+
+    <!--
+    ####################################################################################################################
+    Splunk built-in
+    ####################################################################################################################
+    -->
+
+    <collection label="Search">
+        <view name="search" />
+        <view name="reports" />
+        <view name="dashboards" />
+        <view name="alerts" />
+    </collection>
+
+    <!--
+    ####################################################################################################################
+    Linux OS
+    ####################################################################################################################
+    -->
+
+    <collection label="Linux OS">
+        <collection label="Entity views">
+            <view name="telegraf-os-linux" />
+        </collection>
+        <collection label="Reports">
+            <saved name="telegraf-os-linux"></saved>
+            <saved name="Linux file-system report"></saved>
+        </collection>
+    </collection>
+
+    <!--
+    ####################################################################################################################
+    Windows OS
+    ####################################################################################################################
+    -->
+
+    <collection label="Windows OS">
+        <collection label="Entity views">
+            <view name="telegraf-os-windows" />
+            <view name="telegraf-os-windows-ad" />
+            <view name="telegraf-os-windows-dns" />
+            <view name="telegraf-os-windows-dfsn" />
+            <view name="telegraf-os-windows-dfsr" />
+            <view name="telegraf-os-windows-iis" />
+        </collection>
+        <collection label="Reports">
+            <saved name="telegraf-os-windows"></saved>
+            <saved name="Windows file-system report"></saved>
+        </collection>
+    </collection>
+
+    <!--
+    ####################################################################################################################
+    Run a search
+    ####################################################################################################################
+    -->
+
+    <a href="search">Run a search</a>
+
+</nav>

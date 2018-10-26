@@ -1,0 +1,128 @@
+<dashboard stylesheet="common.css,hover.css" hideEdit="true" isVisible="true">
+    <label>Overview</label>
+
+    <row>
+        <panel>
+            <html>
+                <div class="dashseparator">
+                    <h1>LINUX OS</h1>
+                </div>
+            </html>
+        </panel>
+        <panel>
+            <html>
+                <div class="dashseparator">
+                    <h1>WINDOWS OS</h1>
+                </div>
+            </html>
+        </panel>
+    </row>
+
+    <row>
+        <panel>
+            <single>
+                <search>
+                    <query>| savedsearch telegraf-os-linux | stats dc(host) as dcount</query>
+                    <earliest>-60m</earliest>
+                    <latest>now</latest>
+                    <refresh>300s</refresh>
+                    <refreshType>delay</refreshType>
+                </search>
+                <option name="colorMode">block</option>
+                <option name="drilldown">all</option>
+                <option name="numberPrecision">0</option>
+                <option name="rangeColors">["0x006d9c","0x006d9c"]</option>
+                <option name="rangeValues">[0]</option>
+                <option name="refresh.display">progressbar</option>
+                <option name="underLabel">LINUX SERVER(S)</option>
+                <option name="useColors">1</option>
+            </single>
+        </panel>
+        <panel>
+            <single>
+                <search>
+                    <query>| savedsearch telegraf-os-windows | stats dc(host) as dcount</query>
+                    <earliest>-60m</earliest>
+                    <latest>now</latest>
+                    <refresh>300s</refresh>
+                    <refreshType>delay</refreshType>
+                </search>
+                <option name="colorMode">block</option>
+                <option name="drilldown">all</option>
+                <option name="numberPrecision">0</option>
+                <option name="rangeColors">["0x006d9c","0x006d9c"]</option>
+                <option name="rangeValues">[0]</option>
+                <option name="refresh.display">progressbar</option>
+                <option name="underLabel">WINDOWS SERVER(S)</option>
+                <option name="useColors">1</option>
+            </single>
+        </panel>
+    </row>
+
+    <row>
+        <panel>
+            <html>
+                <div class="mainbutton_container_nomargin">
+                    <div class="mainbutton_highmargin">
+                        <a class="button2_lowpadding glow" href="telegraf-os-linux">  OPEN ENTITY DASHBOARD VIEW  </a>
+                    </div>
+                </div>
+            </html>
+        </panel>
+        <panel>
+            <html>
+                <div class="mainbutton_container_nomargin">
+                    <div class="mainbutton_highmargin">
+                        <a class="button2_lowpadding glow" href="telegraf-os-windows">  OPEN ENTITY DASHBOARD VIEW  </a>
+                    </div>
+                </div>
+            </html>
+        </panel>
+    </row>
+
+    <row>
+        <panel>
+            <title>TOP 10 Linux most CPU busy over last 60 min</title>
+            <viz type="horizon_chart_app.horizon_chart">
+                <search>
+                    <query>| mstats avg(_value) as value where `telegraf_index` metric_name=cpu.usage_iowait OR metric_name=cpu.usage_steel OR metric_name=cpu.usage_system OR metric_name=cpu.usage_user host="ip-10-0-0-173" by metric_name, host span=10s
+| eval {metric_name}=value
+| stats first(cpu.*) as "cpu.*" by _time, host
+| eval cpu.usage=('cpu.usage_iowait'+'cpu.usage_system'+'cpu.usage_user')
+| timechart useother=f limit=20 `telegraf_span` avg(cpu.usage) AS "avg cpu load %" by host</query>
+                    <earliest>-60m</earliest>
+                    <latest>now</latest>
+                    <sampleRatio>1</sampleRatio>
+                    <refresh>90s</refresh>
+                    <refreshType>delay</refreshType>
+                </search>
+                <option name="drilldown">none</option>
+                <option name="trellis.enabled">0</option>
+                <option name="trellis.scales.shared">1</option>
+                <option name="trellis.size">medium</option>
+                <option name="horizon_chart_app.horizon_chart.relative">false</option>
+            </viz>
+        </panel>
+        <panel>
+            <title>TOP 10 Windows most CPU busy over last 60 min</title>
+            <viz type="horizon_chart_app.horizon_chart">
+                <search>
+                    <query>| mstats avg(_value) as Percent_Idle where `telegraf_index` metric_name="win_cpu.Percent_Idle_Time" instance=_Total host="EC2AMAZ-30M2H7E" by host span=10s
+| eval cpu_usage=100-Percent_Idle
+| timechart useother=f limit=20 `telegraf_span` avg(cpu_usage) AS "avg cpu load %" by host</query>
+                    <earliest>-60m</earliest>
+                    <latest>now</latest>
+                    <sampleRatio>1</sampleRatio>
+                    <refresh>90s</refresh>
+                    <refreshType>delay</refreshType>
+                </search>
+                <option name="drilldown">none</option>
+                <option name="trellis.enabled">0</option>
+                <option name="trellis.scales.shared">1</option>
+                <option name="trellis.size">medium</option>
+                <option name="horizon_chart_app.horizon_chart.relative">false</option>
+            </viz>
+        </panel>
+    </row>
+
+</dashboard>

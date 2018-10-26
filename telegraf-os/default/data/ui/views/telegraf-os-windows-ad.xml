@@ -1,0 +1,234 @@
+<dashboard stylesheet="DA-ITSI-TELEGRAF-OS:common.css" hideEdit="true" isVisible="true">
+  <label>Telegraf metrics - Windows Active Directory Domain Controller</label>
+  <fieldset autoRun="false" submitButton="false">
+      <input type="time" searchWhenChanged="true">
+          <label></label>
+          <default>
+              <earliestTime>-4h</earliestTime>
+              <latestTime>now</latestTime>
+          </default>
+      </input>
+      <input type="dropdown" token="host" searchWhenChanged="true">
+        <label>Host(s):</label>
+        <!-- Populating Data Model Search -->
+        <search>
+          <query>| savedsearch telegraf-os-windows | where windows_ad="true" | sort 0 host | table host</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
+        </search>
+        <prefix>host="</prefix>
+        <suffix>"</suffix>
+        <fieldForLabel>host</fieldForLabel>
+        <fieldForValue>host</fieldForValue>
+      </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>| savedsearch DA-ITSI-TELEGRAF-OS-Host_Search_windows $host$</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <search id="global">
+      <query>| mstats avg(_value) as value where `telegraf_index` metric_name="win_ad.*" $host$ by metric_name span=1s
+| eval {metric_name}=value
+| stats first(win_ad.*) as "*" by _time
+| timechart `telegraf_span` avg(*) as "*"</query>
+      <earliest>$earliest$</earliest>
+      <latest>$latest$</latest>
+  </search>
+  <row>
+    <panel>
+      <chart>
+        <title>Digest_Authentications</title>
+        <search base="global">
+          <query>fields _time, Digest_Authentications</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Kerberos_Authentications</title>
+        <search base="global">
+          <query>fields _time, Kerberos_Authentications</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>NTLM_Authentications</title>
+        <search base="global">
+          <query>fields _time, NTLM_Authentications</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Database_adds_persec</title>
+        <search base="global">
+          <query>fields _time, Database_adds_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Database_deletes_persec</title>
+        <search base="global">
+          <query>fields _time, Database_deletes_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Database_modifys_persec</title>
+        <search base="global">
+          <query>fields _time, Database_modifys_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Database_recycles_persec</title>
+        <search base="global">
+          <query>fields _time, Database_recycles_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Base_Searches_persec</title>
+        <search base="global">
+          <query>fields _time, Base_Searches_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>LDAP_Client_Sessions</title>
+        <search base="global">
+          <query>fields _time, LDAP_Client_Sessions</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>LDAP_Searches_persec</title>
+        <search base="global">
+          <query>fields _time, LDAP_Searches_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>LDAP_Writes_persec</title>
+        <search base="global">
+          <query>fields _time, LDAP_Writes_persec</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <!--  <option name="charting.axisLabelsX.majorLabelVisibility">hide</option> -->
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="refresh.time.visible">false</option>
+      </chart>
+    </panel>
+  </row>
+</dashboard>
