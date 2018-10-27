@@ -82,14 +82,14 @@
 
     <row>
         <panel>
-            <title>TOP 10 Linux most CPU busy over last 60 min</title>
+            <title>TOP 15 most cpu busy over last 60 min</title>
             <viz type="horizon_chart_app.horizon_chart">
                 <search>
-                    <query>| mstats avg(_value) as value where `telegraf_index` metric_name=cpu.usage_iowait OR metric_name=cpu.usage_steel OR metric_name=cpu.usage_system OR metric_name=cpu.usage_user host=* by metric_name, host span=10s
+                    <query>| mstats avg(_value) as value where `telegraf_index` (metric_name=cpu.usage_iowait OR metric_name=cpu.usage_steel OR metric_name=cpu.usage_system OR metric_name=cpu.usage_user) OR (metric_name="win_cpu.Percent_Idle_Time" instance=_Total) host=* by metric_name, host span=10s
 | eval {metric_name}=value
-| stats first(cpu.*) as "cpu.*" by _time, host
-| eval cpu.usage=('cpu.usage_iowait'+'cpu.usage_system'+'cpu.usage_user')
-| timechart useother=f limit=20 `telegraf_span` avg(cpu.usage) AS "avg cpu load %" by host</query>
+| stats first(cpu.*) as "cpu.*", first(win_cpu.*) as "*" by _time, host
+| eval cpu_usage=case(isnotnull(Percent_Idle_Time), 100-Percent_Idle_Time, isnotnull('cpu.usage_system'), ('cpu.usage_iowait'+'cpu.usage_system'+'cpu.usage_user'))
+| timechart useother=f limit=15 `telegraf_span` avg(cpu_usage) AS "avg cpu load %" by host</query>
                     <earliest>-60m</earliest>
                     <latest>now</latest>
                     <sampleRatio>1</sampleRatio>
@@ -104,12 +104,93 @@
             </viz>
         </panel>
         <panel>
-            <title>TOP 10 Windows most CPU busy over last 60 min</title>
+            <title>TOP 15 most disk space consumers over last 60 min</title>
+            <chart>
+                <search>
+                    <query>| mstats latest(_value) as value where index="telegraf" metric_name=disk.used OR metric_name=disk.total device!="loop*" host=* by metric_name, host, device
+| eval {metric_name}=value
+| stats first(disk.used) as disk.used, first(disk.total) as disk.total by host, device
+| stats sum(disk.used) as disk.used, sum(disk.total) as disk.total by host
+| chart first(disk.used) as disk.used first(disk.total) as disk.total by host | eval disk.used='disk.used'/1024/1024, disk.total='disk.total'/1024/1024
+| append [ | mstats latest(_value) as value where index="telegraf" metric_name=win_disk.Percent_Free_Space OR metric_name=win_disk.Free_Megabytes host=* by metric_name, host, instance
+| eval {metric_name}=value
+| stats first(win_disk.*) as "*" by host, instance
+| eval Percent_Free_Space=round(Percent_Free_Space,2), "disk.total"=((Free_Megabytes / Percent_Free_Space) * 100), "disk.used"=('disk.total' - Free_Megabytes)
+| stats sum(disk.used) as disk.used, sum(disk.total) as disk.total by host ]
+| eval pct_used=round((('disk.used' / 'disk.total') * 100),2), pct_free=round(100-pct_used, 2)
+| chart first(pct_free) as pct_free first(pct_used) as pct_used, first(disk.used) as total_used by host
+| sort 15 - total_used
+| fields - total_used</query>
+                    <earliest>-4h</earliest>
+                    <latest>now</latest>
+                    <sampleRatio>1</sampleRatio>
+                </search>
+                <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+                <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+                <option name="charting.axisTitleX.visibility">visible</option>
+                <option name="charting.axisTitleY.visibility">visible</option>
+                <option name="charting.axisTitleY2.visibility">visible</option>
+                <option name="charting.axisX.abbreviation">none</option>
+                <option name="charting.axisX.scale">linear</option>
+                <option name="charting.axisY.abbreviation">none</option>
+                <option name="charting.axisY.scale">linear</option>
+                <option name="charting.axisY2.abbreviation">none</option>
+                <option name="charting.axisY2.enabled">0</option>
+                <option name="charting.axisY2.scale">inherit</option>
+                <option name="charting.chart">bar</option>
+                <option name="charting.chart.bubbleMaximumSize">50</option>
+                <option name="charting.chart.bubbleMinimumSize">10</option>
+                <option name="charting.chart.bubbleSizeBy">area</option>
+                <option name="charting.chart.nullValueMode">gaps</option>
+                <option name="charting.chart.showDataLabels">none</option>
+                <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+                <option name="charting.chart.stackMode">stacked</option>
+                <option name="charting.chart.style">shiny</option>
+                <option name="charting.drilldown">none</option>
+                <option name="charting.layout.splitSeries">0</option>
+                <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+                <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+                <option name="charting.legend.mode">standard</option>
+                <option name="charting.legend.placement">bottom</option>
+                <option name="charting.lineWidth">2</option>
+                <option name="trellis.enabled">0</option>
+                <option name="trellis.scales.shared">1</option>
+                <option name="trellis.size">medium</option>
+                <option name="charting.fieldColors">{"pct_free": 0xa0d6b4, "pct_used": 0xf97c7c}</option>
+            </chart>
+        </panel>
+    </row>
+
+    <row>
+        <panel>
+            <title>TOP 15 most memory busy over last 60 min</title>
             <viz type="horizon_chart_app.horizon_chart">
                 <search>
-                    <query>| mstats avg(_value) as Percent_Idle where `telegraf_index` metric_name="win_cpu.Percent_Idle_Time" instance=_Total host=* by host span=10s
-| eval cpu_usage=100-Percent_Idle
-| timechart useother=f limit=20 `telegraf_span` avg(cpu_usage) AS "avg cpu load %" by host</query>
+                    <query>| mstats avg(_value) as pct_used where index="telegraf" metric_name=mem.used_percent host=*  by metric_name, host span=10s
+| eval pct_used=round(pct_used,2)
+| timechart useother=f limit=15 `telegraf_span` avg(pct_used) AS "avg mem load %" by host</query>
+                    <earliest>-60m</earliest>
+                    <latest>now</latest>
+                    <sampleRatio>1</sampleRatio>
+                    <refresh>90s</refresh>
+                    <refreshType>delay</refreshType>
+                </search>
+                <option name="drilldown">none</option>
+                <option name="trellis.enabled">0</option>
+                <option name="trellis.scales.shared">1</option>
+                <option name="trellis.size">medium</option>
+                <option name="horizon_chart_app.horizon_chart.relative">false</option>
+            </viz>
+        </panel>
+        <panel>
+            <title>TOP 15 most swap busy over last 60 min</title>
+            <viz type="horizon_chart_app.horizon_chart">
+                <search>
+                    <query>| mstats avg(_value) as value where `telegraf_index` metric_name=swap.used_percent OR metric_name=win_swap.Percent_Usage host=* by host, metric_name span=1s
+| eval {metric_name}=value
+| stats first(swap.used_percent) as "swap.used_percent", first(win_swap.Percent_Usage) as "win_swap.Percent_Usage" by _time, host
+| eval swap_used_pct=case(isnotnull('swap.used_percent'), 'swap.used_percent', isnotnull('win_swap.Percent_Usage'), 'win_swap.Percent_Usage')
+| timechart useother=f limit=15 `telegraf_span` avg(swap_used_pct) AS "swap used (%)" by host</query>
                     <earliest>-60m</earliest>
                     <latest>now</latest>
                     <sampleRatio>1</sampleRatio>
