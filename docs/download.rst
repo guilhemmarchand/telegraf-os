@@ -9,7 +9,7 @@ Splunk Application for Operating System monitoring with Telegraf
 Splunk base
 -----------
 
-- https://splunkbase.splunk.com/app/<AWAITING>
+- https://splunkbase.splunk.com/app/4271
 
 GitHub
 ------

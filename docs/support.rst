@@ -10,7 +10,7 @@ Splunk Answers
 
 Open a question in Splunk answers for the application:
 
-- https://answers.splunk.com/app/questions/<AWAITING>.html
+- https://answers.splunk.com/app/questions/4271.html
 
 Splunk community slack
 ======================
