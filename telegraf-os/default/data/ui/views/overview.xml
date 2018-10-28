@@ -25,8 +25,6 @@
                     <query>| savedsearch telegraf-os-linux | stats dc(host) as dcount</query>
                     <earliest>-60m</earliest>
                     <latest>now</latest>
-                    <refresh>300s</refresh>
-                    <refreshType>delay</refreshType>
                 </search>
                 <option name="colorMode">block</option>
                 <option name="drilldown">all</option>
@@ -44,8 +42,6 @@
                     <query>| savedsearch telegraf-os-windows | stats dc(host) as dcount</query>
                     <earliest>-60m</earliest>
                     <latest>now</latest>
-                    <refresh>300s</refresh>
-                    <refreshType>delay</refreshType>
                 </search>
                 <option name="colorMode">block</option>
                 <option name="drilldown">all</option>
@@ -82,19 +78,44 @@
 
     <row>
         <panel>
+            <input type="time" searchWhenChanged="true">
+                <label></label>
+                <default>
+                    <earliestTime>-60m</earliestTime>
+                    <latestTime>now</latestTime>
+                </default>
+            </input>
+            <input type="multiselect" token="host" searchWhenChanged="true">
+                <label></label>
+                <search>
+                    <query>| mcatalog values(host) as host where `telegraf_index` metric_name="system.n_cpus" OR metric_name=win_cpu.Percent_Idle_Time | mvexpand host | sort 0 host</query>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
+                </search>
+                <valuePrefix>host="</valuePrefix>
+                <valueSuffix>"</valueSuffix>
+                <delimiter> OR </delimiter>
+                <choice value="*">ANY</choice>
+                <initialValue>*</initialValue>
+                <fieldForLabel>host</fieldForLabel>
+                <fieldForValue>host</fieldForValue>
+            </input>
+        </panel>
+    </row>
+
+    <row>
+        <panel>
             <title>TOP 15 most cpu busy over last 60 min</title>
             <viz type="horizon_chart_app.horizon_chart">
                 <search>
-                    <query>| mstats avg(_value) as value where `telegraf_index` (metric_name=cpu.usage_iowait OR metric_name=cpu.usage_steel OR metric_name=cpu.usage_system OR metric_name=cpu.usage_user) OR (metric_name="win_cpu.Percent_Idle_Time" instance=_Total) host=* by metric_name, host span=10s
+                    <query>| mstats avg(_value) as value where `telegraf_index` (metric_name=cpu.usage_iowait OR metric_name=cpu.usage_steel OR metric_name=cpu.usage_system OR metric_name=cpu.usage_user) OR (metric_name="win_cpu.Percent_Idle_Time" instance=_Total) $host$ by metric_name, host span=10s
 | eval {metric_name}=value
 | stats first(cpu.*) as "cpu.*", first(win_cpu.*) as "*" by _time, host
 | eval cpu_usage=case(isnotnull(Percent_Idle_Time), 100-Percent_Idle_Time, isnotnull('cpu.usage_system'), ('cpu.usage_iowait'+'cpu.usage_system'+'cpu.usage_user'))
 | timechart useother=f limit=15 `telegraf_span` avg(cpu_usage) AS "avg cpu load %" by host</query>
-                    <earliest>-60m</earliest>
-                    <latest>now</latest>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
                     <sampleRatio>1</sampleRatio>
-                    <refresh>90s</refresh>
-                    <refreshType>delay</refreshType>
                 </search>
                 <option name="drilldown">none</option>
                 <option name="trellis.enabled">0</option>
@@ -107,12 +128,12 @@
             <title>TOP 15 most disk space consumers over last 60 min</title>
             <chart>
                 <search>
-                    <query>| mstats latest(_value) as value where index="telegraf" metric_name=disk.used OR metric_name=disk.total device!="loop*" host=* by metric_name, host, device
+                    <query>| mstats latest(_value) as value where index="telegraf" metric_name=disk.used OR metric_name=disk.total device!="loop*" $host$ by metric_name, host, device
 | eval {metric_name}=value
 | stats first(disk.used) as disk.used, first(disk.total) as disk.total by host, device
 | stats sum(disk.used) as disk.used, sum(disk.total) as disk.total by host
 | chart first(disk.used) as disk.used first(disk.total) as disk.total by host | eval disk.used='disk.used'/1024/1024, disk.total='disk.total'/1024/1024
-| append [ | mstats latest(_value) as value where index="telegraf" metric_name=win_disk.Percent_Free_Space OR metric_name=win_disk.Free_Megabytes host=* by metric_name, host, instance
+| append [ | mstats latest(_value) as value where index="telegraf" metric_name=win_disk.Percent_Free_Space OR metric_name=win_disk.Free_Megabytes $host$ by metric_name, host, instance
 | eval {metric_name}=value
 | stats first(win_disk.*) as "*" by host, instance
 | eval Percent_Free_Space=round(Percent_Free_Space,2), "disk.total"=((Free_Megabytes / Percent_Free_Space) * 100), "disk.used"=('disk.total' - Free_Megabytes)
@@ -121,8 +142,8 @@
 | chart first(pct_free) as pct_free first(pct_used) as pct_used, first(disk.used) as total_used by host
 | sort 15 - total_used
 | fields - total_used</query>
-                    <earliest>-4h</earliest>
-                    <latest>now</latest>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
                     <sampleRatio>1</sampleRatio>
                 </search>
                 <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
@@ -166,14 +187,12 @@
             <title>TOP 15 most memory busy over last 60 min</title>
             <viz type="horizon_chart_app.horizon_chart">
                 <search>
-                    <query>| mstats avg(_value) as pct_used where index="telegraf" metric_name=mem.used_percent host=*  by metric_name, host span=10s
+                    <query>| mstats avg(_value) as pct_used where index="telegraf" metric_name=mem.used_percent $host$  by metric_name, host span=10s
 | eval pct_used=round(pct_used,2)
 | timechart useother=f limit=15 `telegraf_span` avg(pct_used) AS "avg mem load %" by host</query>
-                    <earliest>-60m</earliest>
-                    <latest>now</latest>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
                     <sampleRatio>1</sampleRatio>
-                    <refresh>90s</refresh>
-                    <refreshType>delay</refreshType>
                 </search>
                 <option name="drilldown">none</option>
                 <option name="trellis.enabled">0</option>
@@ -186,16 +205,14 @@
             <title>TOP 15 most swap busy over last 60 min</title>
             <viz type="horizon_chart_app.horizon_chart">
                 <search>
-                    <query>| mstats avg(_value) as value where `telegraf_index` metric_name=swap.used_percent OR metric_name=win_swap.Percent_Usage host=* by host, metric_name span=1s
+                    <query>| mstats avg(_value) as value where `telegraf_index` metric_name=swap.used_percent OR metric_name=win_swap.Percent_Usage $host$ by host, metric_name span=1s
 | eval {metric_name}=value
 | stats first(swap.used_percent) as "swap.used_percent", first(win_swap.Percent_Usage) as "win_swap.Percent_Usage" by _time, host
 | eval swap_used_pct=case(isnotnull('swap.used_percent'), 'swap.used_percent', isnotnull('win_swap.Percent_Usage'), 'win_swap.Percent_Usage')
 | timechart useother=f limit=15 `telegraf_span` avg(swap_used_pct) AS "swap used (%)" by host</query>
-                    <earliest>-60m</earliest>
-                    <latest>now</latest>
+                    <earliest>$earliest$</earliest>
+                    <latest>$latest$</latest>
                     <sampleRatio>1</sampleRatio>
-                    <refresh>90s</refresh>
-                    <refreshType>delay</refreshType>
                 </search>
                 <option name="drilldown">none</option>
                 <option name="trellis.enabled">0</option>
