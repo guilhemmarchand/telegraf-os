@@ -26,7 +26,7 @@
         <panel>
             <table>
                 <search>
-                    <query>| savedsearch DA-ITSI-TELEGRAF-OS-Host_Search_linux $host$</query>
+                    <query>| savedsearch telegraf-os-Host_Search_linux $host$</query>
                     <earliest>-24h@h</earliest>
                     <latest>now</latest>
                     <sampleRatio>1</sampleRatio>
@@ -41,25 +41,25 @@
             </table>
         </panel>
         <panel>
-            <viz type="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter">
+            <viz type="horseshoe_meter_app.horseshoe_meter">
                 <search>
-                    <query>| savedsearch DA-ITSI-TELEGRAF-OS-Context_Chart_CPU_Search_linux $host$ | rename pct_used as "avg % cpu"</query>
+                    <query>| savedsearch telegraf-os-Context_Chart_CPU_Search_linux $host$ | rename pct_used as "avg % cpu"</query>
                     <earliest>$earliest$</earliest>
                     <latest>$latest$</latest>
                 </search>
                 <option name="drilldown">none</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.backgroundColor">#fff</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.dialColor">#d0d5d9</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxRangeColor">#b44441</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxRangeThreshold">80</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxValue">100</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.midRangeColor">#fbcd2f</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.midRangeThreshold">55</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.minRangeColor">#3fc77a</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.minValue">0</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.thresholdStyle">percentage</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.useRangemap">false</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.valueColor">#779ecb</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.backgroundColor">#fff</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.dialColor">#d0d5d9</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.maxRangeColor">#b44441</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.maxRangeThreshold">80</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.maxValue">100</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.midRangeColor">#fbcd2f</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.midRangeThreshold">55</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.minRangeColor">#3fc77a</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.minValue">0</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.thresholdStyle">percentage</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.useRangemap">false</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.valueColor">#779ecb</option>
                 <option name="trellis.enabled">0</option>
                 <option name="trellis.scales.shared">1</option>
                 <option name="trellis.size">medium</option>
@@ -67,25 +67,25 @@
             </viz>
         </panel>
         <panel>
-            <viz type="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter">
+            <viz type="horseshoe_meter_app.horseshoe_meter">
                 <search>
-                    <query>| savedsearch DA-ITSI-TELEGRAF-OS-Context_Chart_Memory_Search_linux $host$ | rename pct_used as "avg % mem"</query>
+                    <query>| savedsearch telegraf-os-Context_Chart_Memory_Search_linux $host$ | rename pct_used as "avg % mem"</query>
                     <earliest>$earliest$</earliest>
                     <latest>$latest$</latest>
                 </search>
                 <option name="drilldown">none</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.backgroundColor">#fff</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.dialColor">#d0d5d9</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxRangeColor">#b44441</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxRangeThreshold">80</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxValue">100</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.midRangeColor">#fbcd2f</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.midRangeThreshold">55</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.minRangeColor">#3fc77a</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.minValue">0</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.thresholdStyle">percentage</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.useRangemap">false</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.valueColor">#779ecb</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.backgroundColor">#fff</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.dialColor">#d0d5d9</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.maxRangeColor">#b44441</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.maxRangeThreshold">80</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.maxValue">100</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.midRangeColor">#fbcd2f</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.midRangeThreshold">55</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.minRangeColor">#3fc77a</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.minValue">0</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.thresholdStyle">percentage</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.useRangemap">false</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.valueColor">#779ecb</option>
                 <option name="trellis.enabled">0</option>
                 <option name="trellis.scales.shared">1</option>
                 <option name="trellis.size">medium</option>
@@ -93,25 +93,25 @@
             </viz>
         </panel>
         <panel>
-            <viz type="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter">
+            <viz type="horseshoe_meter_app.horseshoe_meter">
                 <search>
-                    <query>| savedsearch DA-ITSI-TELEGRAF-OS-Context_Chart_Disk_Usage_Search_linux $host$ | rename pct_used as "% disk used"</query>
+                    <query>| savedsearch telegraf-os-Context_Chart_Disk_Usage_Search_linux $host$ | rename pct_used as "% disk used"</query>
                     <earliest>$earliest$</earliest>
                     <latest>$latest$</latest>
                 </search>
                 <option name="drilldown">none</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.backgroundColor">#fff</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.dialColor">#d0d5d9</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxRangeColor">#b44441</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxRangeThreshold">80</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.maxValue">100</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.midRangeColor">#fbcd2f</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.midRangeThreshold">55</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.minRangeColor">#3fc77a</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.minValue">0</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.thresholdStyle">percentage</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.useRangemap">false</option>
-                <option name="DA-ITSI-TELEGRAF-OS.telegraf_horseshoe_meter.valueColor">#779ecb</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.backgroundColor">#fff</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.dialColor">#d0d5d9</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.maxRangeColor">#b44441</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.maxRangeThreshold">80</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.maxValue">100</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.midRangeColor">#fbcd2f</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.midRangeThreshold">55</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.minRangeColor">#3fc77a</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.minValue">0</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.thresholdStyle">percentage</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.useRangemap">false</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.valueColor">#779ecb</option>
                 <option name="trellis.enabled">0</option>
                 <option name="trellis.scales.shared">1</option>
                 <option name="trellis.size">medium</option>

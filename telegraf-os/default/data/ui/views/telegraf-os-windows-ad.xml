@@ -1,4 +1,4 @@
-<dashboard stylesheet="DA-ITSI-TELEGRAF-OS:common.css" hideEdit="true" isVisible="true">
+<dashboard stylesheet="telegraf-os:common.css" hideEdit="true" isVisible="true">
   <label>Telegraf metrics - Windows Active Directory Domain Controller</label>
   <fieldset autoRun="false" submitButton="false">
       <input type="time" searchWhenChanged="true">
@@ -26,7 +26,7 @@
     <panel>
       <table>
         <search>
-          <query>| savedsearch DA-ITSI-TELEGRAF-OS-Host_Search_windows $host$</query>
+          <query>| savedsearch telegraf-os-Host_Search_windows $host$</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
           <sampleRatio>1</sampleRatio>

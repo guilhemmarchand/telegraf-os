@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.3
+=============
+
+- fix: Missing objects and bad references
+
 Version 1.0.2
 =============
 
