@@ -1,6 +1,12 @@
 Release notes
 #############
 
+Version 1.0.2
+=============
+
+- fix: hard coded references to savedsearches.conf
+
+
 Version 1.0.1
 =============
 
