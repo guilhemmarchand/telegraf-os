@@ -128,12 +128,12 @@
             <title>TOP 15 most disk space consumers over last 60 min</title>
             <chart>
                 <search>
-                    <query>| mstats latest(_value) as value where index="telegraf" metric_name=disk.used OR metric_name=disk.total device!="loop*" $host$ by metric_name, host, device
+                    <query>| mstats latest(_value) as value where `telegraf_index` metric_name=disk.used OR metric_name=disk.total device!="loop*" $host$ by metric_name, host, device
 | eval {metric_name}=value
 | stats first(disk.used) as disk.used, first(disk.total) as disk.total by host, device
 | stats sum(disk.used) as disk.used, sum(disk.total) as disk.total by host
 | chart first(disk.used) as disk.used first(disk.total) as disk.total by host | eval disk.used='disk.used'/1024/1024, disk.total='disk.total'/1024/1024
-| append [ | mstats latest(_value) as value where index="telegraf" metric_name=win_disk.Percent_Free_Space OR metric_name=win_disk.Free_Megabytes $host$ by metric_name, host, instance
+| append [ | mstats latest(_value) as value where `telegraf_index` metric_name=win_disk.Percent_Free_Space OR metric_name=win_disk.Free_Megabytes $host$ by metric_name, host, instance
 | eval {metric_name}=value
 | stats first(win_disk.*) as "*" by host, instance
 | eval Percent_Free_Space=round(Percent_Free_Space,2), "disk.total"=((Free_Megabytes / Percent_Free_Space) * 100), "disk.used"=('disk.total' - Free_Megabytes)
@@ -187,7 +187,7 @@
             <title>TOP 15 most memory busy over last 60 min</title>
             <viz type="horizon_chart_app.horizon_chart">
                 <search>
-                    <query>| mstats avg(_value) as pct_used where index="telegraf" metric_name=mem.used_percent $host$  by metric_name, host span=10s
+                    <query>| mstats avg(_value) as pct_used where `telegraf_index` metric_name=mem.used_percent $host$  by metric_name, host span=10s
 | eval pct_used=round(pct_used,2)
 | timechart useother=f limit=15 `telegraf_span` avg(pct_used) AS "avg mem load %" by host</query>
                     <earliest>$earliest$</earliest>
