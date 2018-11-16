@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.4
+=============
+
+- fix: Missing table_bar.css|.js
+
 Version 1.0.3
 =============
 
