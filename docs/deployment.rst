@@ -19,9 +19,10 @@ The deployment and configuration requires the creation of a dedicated metric ind
 Dependencies
 ============
 
-**The overview home page requires the deployment of the horizon chart third party visualisation addon on the search heads:**
+**The overview home page requires the deployment of the horizon chart and horseshoe third party visualisation addons on the search heads:**
 
 - https://splunkbase.splunk.com/app/3117
+- https://splunkbase.splunk.com/app/3166
 
 **The metric workspace application is not required but highly recommended, if it is installed, the Metric link will be automatically available within the application bar:**
 
