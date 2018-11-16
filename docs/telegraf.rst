@@ -101,6 +101,24 @@ By:
 
 *Notes: the configuration above will automatically use the owner of the Splunk processes*
 
+After this section, add: (adapt if TA name differs)
+
+::
+
+    APP=TA-telegraf-amd64
+
+Change:
+
+::
+
+    STDERR=/var/log/telegraf/telegraf.log
+
+By:
+
+::
+
+    STDERR=$SPLUNK_HOME/etc/apps/$APP/bin/telegraf/var/log/telegraf/telegraf.log
+
 Change:
 
 ::
@@ -111,7 +129,7 @@ By:
 
 ::
 
-    daemon=$SPLUNK_HOME/etc/apps/TA-telegraf-amd64/bin/telegraf/usr/bin/telegraf
+    daemon=$SPLUNK_HOME/etc/apps/$APP/bin/telegraf/usr/bin/telegraf
 
 Change:
 
@@ -124,8 +142,20 @@ By:
 
 ::
 
-    config=$SPLUNK_HOME/etc/apps/TA-telegraf-amd64/local/telegraf.conf
-    confdir=$SPLUNK_HOME/etc/apps/TA-telegraf-amd64/bin/telegraf/etc/telegraf/telegraf.d
+    config=$SPLUNK_HOME/etc/apps/$APP/local/telegraf.conf
+    confdir=$SPLUNK_HOME/etc/apps/$APP/bin/telegraf/etc/telegraf/telegraf.d
+
+Change:
+
+::
+
+    pidfile=/var/run/telegraf/telegraf.pid
+
+By:
+
+::
+
+    pidfile=$SPLUNK_HOME/var/run/telegraf/telegraf.pid
 
 
 **Finally, create a very simple local/inputs.conf configuration file:**
