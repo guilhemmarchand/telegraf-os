@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.5
+=============
+
+- fix: improved nix family detection, avoid relying on kernel metrics which is Linux specific and might mot be available if not configured
+
 Version 1.0.4
 =============
 
