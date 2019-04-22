@@ -289,7 +289,7 @@ The output configuration depends on the deployment you choose to use to ingest m
     #   ## pattern as argument for pgrep (ie, pgrep -f <pattern>)
     #   # pattern = "nginx"
     #   ## user as argument for pgrep (ie, pgrep -u <user>)
-        user = "guilhem"
+    #   user = "root"
     #   ## Systemd unit name
     #   # systemd_unit = "nginx.service"
     #   ## CGroup name or path
@@ -312,8 +312,7 @@ The output configuration depends on the deployment you choose to use to ingest m
     #   ## the native finder performs the search directly in a manor dependent on the
     #   ## platform.  Default is 'pgrep'
     #   # pid_finder = "pgrep"
-
-
+        pattern = ".*"
 
 Windows additional configuration (mem inputs)
 ---------------------------------------------
