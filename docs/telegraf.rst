@@ -32,8 +32,6 @@ This means that you can create a custom Technology Addon (TA) that contains both
 
 - You can maintain and upgrade Telegraf just as you do usually in Splunk, all from your Splunk Deployment Server. (DS)
 
-**If you wish to check for a read to use example, see:**
-
 *Linux 64 bits example:*
 
 - https://github.com/guilhemmarchand/TA-telegraf-amd64
