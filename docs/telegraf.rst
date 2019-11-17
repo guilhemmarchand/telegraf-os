@@ -388,14 +388,14 @@ I cannot say more, this is simple, very simple. Add the following configuration 
 
 Example::
 
-    [monitor::/tmp/metrics.out]
+    [monitor:///tmp/metrics.out]
     disabled = false
     index = telegraf
     sourcetype = file:telegraf:graphite
 
 Apply this simple input.conf, if you deploy thought the Splunk deployment server ensure splunkd is configured to restart in your serverclass configuration.
 
-Et voila, Splunk ingests the metrics continously and metrics are forwarded to the indexing layer using your Splunk infrastructure, be on-premise, private or Splunk Cloud.
+Et voila, Splunk ingests the metrics continuously and metrics are forwarded to the indexing layer using your Splunk infrastructure, be on-premise, private or Splunk Cloud.
 
 
 KAFKA Ingestion
