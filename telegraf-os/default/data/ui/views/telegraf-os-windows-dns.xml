@@ -1,4 +1,4 @@
-<dashboard stylesheet="telegraf-os:common.css" hideEdit="true" isVisible="true">
+<dashboard stylesheet="telegraf-os:common.css" theme="dark" hideEdit="true" isVisible="true">
   <label>Telegraf metrics - Windows DNS server</label>
   <fieldset autoRun="false" submitButton="false">
       <input type="time" searchWhenChanged="true">

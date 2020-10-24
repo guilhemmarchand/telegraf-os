@@ -1,4 +1,4 @@
-<dashboard stylesheet="common.css,hover.css" hideEdit="true" isVisible="true">
+<dashboard stylesheet="common.css,hover.css" theme="dark" hideEdit="true" isVisible="true">
     <label>Overview</label>
 
     <row>

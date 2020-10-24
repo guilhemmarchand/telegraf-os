@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.6
+=============
+
+- Feature: The App goes full dark mode
+
 Version 1.0.5
 =============
 
