@@ -20,7 +20,7 @@ version: 2.1
 executors:
   content-executor:
     docker:
-      - image: circleci/python:2.7.16
+      - image: circleci/python:latest
     working_directory: ~/repo
 
 jobs:
@@ -41,7 +41,7 @@ jobs:
       - run:
           name: grab appinspect
           command: |
-            curl -Ls https://download.splunk.com/misc/appinspect/splunk-appinspect-2.0.0.tar.gz -o appinspect-lastest.tar.gz
+            curl -Ls https://download.splunk.com/misc/appinspect/splunk-appinspect-latest.tar.gz -o appinspect-lastest.tar.gz
             mkdir appinspect-latest
             tar -zxvf appinspect-lastest.tar.gz -C appinspect-latest --strip-components=1
       - run:
@@ -80,7 +80,7 @@ jobs:
               - telegraf-os.tar.gz
   publish-github-release:
     docker:
-      - image: cibuilds/github:0.10
+      - image: cibuilds/github:latest
     steps:
       - attach_workspace:
           at: ~/telegraf-os/dist/telegraf-os.tar.gz
