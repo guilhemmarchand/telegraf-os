@@ -5,6 +5,7 @@ Version 1.0.6
 =============
 
 - Feature: The App goes full dark mode
+- Feature: Builtin out of the box alerts for basic generic system usage alerting (disk usage, cpu / memory saturation)
 
 Version 1.0.5
 =============
