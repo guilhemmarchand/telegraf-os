@@ -4,8 +4,8 @@
         <input type="time" searchWhenChanged="true">
             <label></label>
             <default>
-                <earliestTime>-4h</earliestTime>
-                <latestTime>now</latestTime>
+                <earliest>-4h</earliest>
+                <latest>now</latest>
             </default>
         </input>
         <input type="dropdown" token="host" searchWhenChanged="true">
