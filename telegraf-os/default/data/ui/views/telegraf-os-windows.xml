@@ -1,11 +1,11 @@
-<dashboard stylesheet="telegraf-os:common.css,telegraf-os:table_bar.css" script="telegraf-os:table_bar.js" hideEdit="true" isVisible="true">
+<dashboard stylesheet="telegraf-os:common.css,telegraf-os:table_bar.css" script="telegraf-os:table_bar.js" theme="dark" hideEdit="true" isVisible="true">
     <label>Telegraf OS metrics - Windows</label>
     <fieldset autoRun="false" submitButton="false">
         <input type="time" searchWhenChanged="true">
             <label></label>
             <default>
-                <earliestTime>-4h</earliestTime>
-                <latestTime>now</latestTime>
+                <earliest>-4h</earliest>
+                <latest>now</latest>
             </default>
         </input>
         <input type="dropdown" token="host" searchWhenChanged="true">
@@ -48,7 +48,7 @@
                     <latest>$latest$</latest>
                 </search>
                 <option name="drilldown">none</option>
-                <option name="horseshoe_meter_app.horseshoe_meter.backgroundColor">#fff</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.backgroundColor">#212527</option>
                 <option name="horseshoe_meter_app.horseshoe_meter.dialColor">#d0d5d9</option>
                 <option name="horseshoe_meter_app.horseshoe_meter.maxRangeColor">#b44441</option>
                 <option name="horseshoe_meter_app.horseshoe_meter.maxRangeThreshold">80</option>
@@ -74,7 +74,7 @@
                     <latest>$latest$</latest>
                 </search>
                 <option name="drilldown">none</option>
-                <option name="horseshoe_meter_app.horseshoe_meter.backgroundColor">#fff</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.backgroundColor">#212527</option>
                 <option name="horseshoe_meter_app.horseshoe_meter.dialColor">#d0d5d9</option>
                 <option name="horseshoe_meter_app.horseshoe_meter.maxRangeColor">#b44441</option>
                 <option name="horseshoe_meter_app.horseshoe_meter.maxRangeThreshold">80</option>
@@ -100,7 +100,7 @@
                     <latest>$latest$</latest>
                 </search>
                 <option name="drilldown">none</option>
-                <option name="horseshoe_meter_app.horseshoe_meter.backgroundColor">#fff</option>
+                <option name="horseshoe_meter_app.horseshoe_meter.backgroundColor">#212527</option>
                 <option name="horseshoe_meter_app.horseshoe_meter.dialColor">#d0d5d9</option>
                 <option name="horseshoe_meter_app.horseshoe_meter.maxRangeColor">#b44441</option>
                 <option name="horseshoe_meter_app.horseshoe_meter.maxRangeThreshold">80</option>

@@ -1,11 +1,11 @@
-<dashboard stylesheet="telegraf-os:common.css" hideEdit="true" isVisible="true">
+<dashboard stylesheet="telegraf-os:common.css" theme="dark" hideEdit="true" isVisible="true">
   <label>Telegraf metrics - Windows DFS Replication</label>
   <fieldset autoRun="false" submitButton="false">
       <input type="time" searchWhenChanged="true">
           <label></label>
           <default>
-              <earliestTime>-4h</earliestTime>
-              <latestTime>now</latestTime>
+              <earliest>-4h</earliest>
+              <latest>now</latest>
           </default>
       </input>
       <input type="dropdown" token="host" searchWhenChanged="true">

@@ -1,4 +1,4 @@
-<dashboard stylesheet="common.css,hover.css" hideEdit="true" isVisible="true">
+<dashboard stylesheet="common.css,hover.css" theme="dark" hideEdit="true" isVisible="true">
     <label>Overview</label>
 
     <row>
@@ -81,8 +81,8 @@
             <input type="time" searchWhenChanged="true">
                 <label></label>
                 <default>
-                    <earliestTime>-60m</earliestTime>
-                    <latestTime>now</latestTime>
+                    <earliest>-60m</earliest>
+                    <latest>now</latest>
                 </default>
             </input>
             <input type="multiselect" token="host" searchWhenChanged="true">

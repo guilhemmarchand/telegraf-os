@@ -20,4 +20,12 @@ limitations under the License.
 
 # Welcome to the Splunk application for Operating System monitoring with Telegraf
 
-![screen1](./docs/img/coremain.png)
+![screen1](./docs/img/screenshots_splunkbase/sceenshot.png)
+
+![screen1](./docs/img/screenshots_splunkbase/sceenshot1.png)
+
+![screen1](./docs/img/screenshots_splunkbase/sceenshot2.png)
+
+![screen1](./docs/img/screenshots_splunkbase/sceenshot3.png)
+
+![screen1](./docs/img/screenshots_splunkbase/sceenshot4.png)

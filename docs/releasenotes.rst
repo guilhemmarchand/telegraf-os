@@ -1,6 +1,13 @@
 Release notes
 #############
 
+Version 1.0.6
+=============
+
+- Feature: The App goes full dark mode
+- Feature: Builtin out of the box alerts for basic generic system usage alerting (disk usage, cpu / memory saturation)
+- Fix: Appinspect failure due to appLogo.png and appLogo_2X.png size
+
 Version 1.0.5
 =============
 

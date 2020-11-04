@@ -30,3 +30,6 @@ backups
 # spl
 *.spl
 
+# Appinspect reports
+appinspect_report*
+
