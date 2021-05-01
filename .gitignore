@@ -27,9 +27,9 @@ docs/_templates
 # backups local
 backups
 
-# spl
-*.spl
+# appinspect reports
+build/appinspect_report_*
 
-# Appinspect reports
-appinspect_report*
-
+# build
+build/*.tgz
+build/release-sha256.txt
