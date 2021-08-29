@@ -1,4 +1,4 @@
-<dashboard stylesheet="telegraf-os:common.css,telegraf-os:table_bar.css" script="telegraf-os:table_bar.js" theme="dark" hideEdit="true" isVisible="true">
+<dashboard stylesheet="telegraf-os:common.css,telegraf-os:table_bar.css" script="telegraf-os:table_bar.js" theme="dark" hideEdit="true" isVisible="true" version="1.1">
     <label>Telegraf OS metrics - Windows</label>
     <fieldset autoRun="false" submitButton="false">
         <input type="time" searchWhenChanged="true">

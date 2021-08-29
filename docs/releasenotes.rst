@@ -1,6 +1,11 @@
 Release notes
 #############
 
+Version 1.0.7
+=============
+
+- Change: JQuery simple XML dashboard update
+
 Version 1.0.6
 =============
 
