@@ -892,7 +892,7 @@
                     <query>
 | mstats avg(_value) as memory_rss where `telegraf_index` metric_name=procstat.memory_rss $host$ by process_name span=1s
 | eval memory_rss=memory_rss/1000000
-| timechart useother=f limit=20 `telegraf_span` avg(memory_rss) AS "memory_rss " by process_name
+| timechart useother=f limit=20 `telegraf_span` avg(memory_rss) AS "memory_rss" by process_name
                     </query>
                     <earliest>$earliest$</earliest>
                     <latest>$latest$</latest>
